@@ -1,0 +1,475 @@
+ <!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>ESG职业人格测试 | 商道学堂 · 发现你的绿色使命</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background: linear-gradient(145deg, #e9f5e9 0%, #c8e6df 100%);
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            padding: 2rem 1rem;
+            color: #1e2f2c;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255,255,255,0.92);
+            backdrop-filter: blur(2px);
+            border-radius: 48px;
+            box-shadow: 0 25px 45px rgba(0, 32, 32, 0.2);
+            overflow: hidden;
+        }
+        .global-logo {
+            text-align: center;
+            padding: 20px 20px 0 20px;
+            background: rgba(44, 94, 76, 0.06);
+            backdrop-filter: blur(2px);
+        }
+        .logo-img {
+            max-width: 180px;
+            height: auto;
+            display: inline-block;
+            filter: drop-shadow(0 2px 6px rgba(0,0,0,0.08));
+            background: transparent;
+        }
+        .logo-placeholder {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: #2c5e4c;
+            padding: 8px 20px;
+            border-radius: 60px;
+            color: white;
+            font-weight: bold;
+        }
+        .hero {
+            background: #2c5e4c;
+            padding: 1.5rem 1.5rem 1.8rem;
+            text-align: center;
+            color: white;
+        }
+        .hero h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        .hero p {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+        .badge {
+            display: inline-block;
+            background: #f4b942;
+            color: #1e3d32;
+            border-radius: 60px;
+            padding: 0.25rem 1rem;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin-top: 1rem;
+        }
+        .quiz-panel {
+            padding: 2rem 1.8rem;
+        }
+        .progress-area {
+            margin-bottom: 2rem;
+        }
+        .progress-text {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #2c5e4c;
+            margin-bottom: 0.5rem;
+        }
+        .progress-bar-bg {
+            background: #e0e7e4;
+            border-radius: 40px;
+            height: 10px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            background: #3d8f6e;
+            width: 0%;
+            height: 100%;
+            transition: width 0.25s ease;
+        }
+        .question-card {
+            background: #ffffffdd;
+            backdrop-filter: blur(4px);
+            border-radius: 32px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(80,120,100,0.2);
+        }
+        .question-text {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #1a3e35;
+            margin-bottom: 1.5rem;
+        }
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        .option {
+            background: white;
+            border: 1.5px solid #cfdfd8;
+            border-radius: 60px;
+            padding: 0.9rem 1.5rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            font-weight: 500;
+            transition: 0.2s;
+        }
+        .option:hover {
+            background: #eef6f2;
+            border-color: #3d8f6e;
+            transform: translateX(6px);
+        }
+        .option.selected {
+            background: #e2f0ea;
+            border-color: #2c5e4c;
+        }
+        .option-letter {
+            font-weight: 800;
+            background: #dfece6;
+            width: 32px;
+            height: 32px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 60px;
+            color: #2c5e4c;
+        }
+        .option.selected .option-letter {
+            background: #2c5e4c;
+            color: white;
+        }
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 0.5rem;
+        }
+        button {
+            background: #2c5e4c;
+            border: none;
+            color: white;
+            font-weight: 600;
+            padding: 0.8rem 2rem;
+            border-radius: 60px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        button:disabled {
+            background: #b9cfc5;
+            cursor: not-allowed;
+        }
+        .btn-secondary {
+            background: #6f9e8b;
+        }
+        .result-btn {
+            background: #f4b942;
+            color: #1e3d32;
+        }
+        .result-area {
+            margin-top: 0.5rem;
+            border-radius: 32px;
+            background: white;
+            padding: 1.8rem;
+            text-align: center;
+            animation: fadeIn 0.5s ease;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px);}
+            to { opacity: 1; transform: translateY(0);}
+        }
+        .personality-img {
+            width: 140px;
+            height: 140px;
+            object-fit: cover;
+            border-radius: 50%;
+            margin: 0 auto 1rem;
+            border: 4px solid #f4b942;
+            background: #f0f7f3;
+        }
+        .personality-name {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #2c5e4c;
+        }
+        .personality-sub {
+            font-size: 1rem;
+            color: #6f9e8b;
+            margin-bottom: 1rem;
+        }
+        .personality-desc {
+            background: #f9fdfb;
+            padding: 1.2rem;
+            border-radius: 28px;
+            text-align: left;
+            line-height: 1.5;
+        }
+        .job-list, .skill-list {
+            margin: 0.8rem 0 0.8rem 1.2rem;
+        }
+        .feature-tag {
+            display: inline-block;
+            background: #e2f0ea;
+            border-radius: 30px;
+            padding: 0.2rem 1rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #2c5e4c;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+        .restart-btn {
+            margin-top: 1.8rem;
+            background: #2c5e4c;
+        }
+        hr {
+            margin: 1rem 0;
+            border-color: #cfe3db;
+        }
+        footer {
+            text-align: center;
+            font-size: 0.75rem;
+            padding: 1.2rem;
+            color: #4e6b62;
+            border-top: 1px solid #d4e2db;
+            background: #fefef7;
+        }
+        .contact-info {
+            margin-top: 8px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #2c5e4c;
+            background: #e9f5e9;
+            display: inline-block;
+            padding: 4px 16px;
+            border-radius: 40px;
+        }
+        @media (max-width: 550px) {
+            .quiz-panel { padding: 1.5rem; }
+            .question-text { font-size: 1.2rem; }
+            .personality-name { font-size: 1.5rem; }
+            .logo-img { max-width: 130px; }
+        }
+    </style>
+</head>
+<body>
+<div class="container" id="app">
+    <div class="global-logo" id="globalLogoArea">
+        <img class="logo-img" id="syntaoLogoImg" src="商道学堂logo_竖版_透明.png" alt="商道学堂" onerror="this.onerror=null; this.style.display='none'; document.getElementById('logoPlaceholder').style.display='inline-flex';">
+        <div id="logoPlaceholder" style="display:none;" class="logo-placeholder">
+            <span>商道学堂 · SynTaoAcademy</span>
+        </div>
+    </div>
+    <div class="hero">
+        <h1>🌱 ESG 职业人格导航</h1>
+        <p>像MBTI一样探索你的绿色基因 · 发现最适合你的ESG使命岗位</p>
+        <div class="badge">💡 8个问题 · 5种职业人格</div>
+    </div>
+    <div class="quiz-panel" id="quizPanel"></div>
+    <footer>
+        <div>⚡ 基于ESG核心素养模型 | 商道学堂支持 · 探索你的可持续影响力</div>
+        <div class="contact-info">📞 咨询联系：19924381458（微信同号）</div>
+    </footer>
+</div>
+
+<script>
+    window.addEventListener('DOMContentLoaded', () => {
+        const img = document.getElementById('syntaoLogoImg');
+        const placeholder = document.getElementById('logoPlaceholder');
+        if (img.complete) {
+            if (img.naturalWidth === 0) {
+                img.style.display = 'none';
+                placeholder.style.display = 'inline-flex';
+            } else {
+                img.style.display = 'inline-block';
+                placeholder.style.display = 'none';
+            }
+        } else {
+            img.onload = () => {
+                img.style.display = 'inline-block';
+                placeholder.style.display = 'none';
+            };
+            img.onerror = () => {
+                img.style.display = 'none';
+                placeholder.style.display = 'inline-flex';
+            };
+        }
+    });
+
+    const QUESTIONS = [
+        { text: "看到一片被污染的湖泊，你会如何处理？", options: ["立即调查污染源，收集证据并向相关部门举报", "思考它背后的社会、经济、环境影响，寻找解决方案", "直接参与清理工作，尝试解决污染问题", "感到无奈，认为污染现象普遍，个人力量有限"] },
+        { text: "在小组作业中，你通常扮演什么角色？", options: ["负责寻找新颖独特的观点和资源，为小组带来创新的思路和洞察", "统筹全局，协调小组成员分工，确保项目按计划进行", "关注任务中的潜在风险，提前预警并制定应对措施", "收集和分析各种信息，为小组决策提供数据支持"] },
+        { text: "在购物时，你更关注商品的什么特点？", options: ["价格低廉", "商家积极履行社会责任", "品质好且有售后保障", "有详细数据和报告支撑"] },
+        { text: "对于热门的新能源汽车，你最关注的是？", options: ["其在市场中的投资价值和发展潜力，寻找相关的绿色投资机会", "新能源汽车推广如何实现可持续发展和社会责任，对整个行业的影响", "新能源汽车在生产、使用和回收过程中的环境合规与安全风险", "新能源汽车相关的数据统计和分析，如性能、市场接受度等"] },
+        { text: "你认为企业最重要的目标是？", options: ["实现盈利与价值增长，在市场中敏锐把握机会", "企业的长远发展，平衡经济、社会和环境效益", "确保企业运营的合规性和风险管理，保障企业稳健发展", "基于数据和事实做出决策，以科学的方式实现企业的可持续发展目标"] },
+        { text: "你对金融市场的了解程度如何？", options: ["非常了解，能灵活运用各种投资工具", "略有了解，掌握一些基本概念", "完全不了解，也没有特别的兴趣", "对金融市场有兴趣，但缺乏了解"] },
+        { text: "你认为人工智能在企业内的作用是什么？", options: ["助力金融市场的分析和预测，挖掘绿色投资机会", "促进企业整体的可持续发展，协调各方面资源和决策", "加强风险识别和管理，提高企业在环境和社会方面的合规性", "深度分析复杂的数据关系，为企业提供更准确的政策支持"] },
+        { text: "你最希望解决的社会问题是什么？", options: ["环境和生态保护问题", "社会公平正义问题", "公共健康与安全问题", "数据隐私与安全问题"] }
+    ];
+
+    const PERSONALITY_MAP = {
+        "绿金捕手": {
+            name: "绿金捕手", sub: "洞见敏锐 · 价值引领",
+            img: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%23367a61'/%3E%3Ctext x='50' y='70' font-size='40' text-anchor='middle' fill='white'%3E💰%3C/text%3E%3C/svg%3E",
+            jobs: ["ESG投资经理", "ESG分析师", "绿色金融专家"],
+            skills: ["ESG报告解读", "可持续投资策略设计", "财务建模", "宏观经济分析"],
+            desc: "你可能是个「金融嗅觉灵敏」的人，拥有敏锐的市场洞察力，擅长于发掘绿色投资机会！你的思维不仅仅局限在数字和图表之间，还能够看到金融市场如何影响环境与社会。"
+        },
+        "全绿舵手": {
+            name: "全绿舵手", sub: "全局思维 · 协同共进",
+            img: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%232c5e4c'/%3E%3Ctext x='50' y='70' font-size='40' text-anchor='middle' fill='white'%3E🌐%3C/text%3E%3C/svg%3E",
+            jobs: ["可持续发展经理", "企业社会责任经理", "公益项目专员/经理", "供应链可持续发展经理"],
+            skills: ["供应链评估", "可持续发展战略制定", "项目管理", "利益相关方管理"],
+            desc: "你可能是那种喜欢从全局出发，思考「企业长远发展」的人，在这个岗位上你不仅要处理企业运营中的挑战，还需要协调资源，推动各方合作，确保企业的每一步都走得稳妥且符合可持续发展的目标。"
+        },
+        "风险绿探": {
+            name: "风险绿探", sub: "风控精准 · 施策得力",
+            img: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%233d8f6e'/%3E%3Ctext x='50' y='70' font-size='40' text-anchor='middle' fill='white'%3E🛡️%3C/text%3E%3C/svg%3E",
+            jobs: ["ESG合规岗", "环境健康安全经理", "治理与风险管理专家", "环境/气候变化管理专员"],
+            skills: ["风险评估方法", "合规体系搭建", "应急预案", "环境管理体系（EMS）运维"],
+            desc: "你的职业方向似乎更倾向于深耕「环境和风险管理领域」，在这些岗位需要聚焦于环境管理和合规风险管理，能够识别、评估和应对企业在ESG方面的风险，保障企业员工、周边社区和环境的安全与健康。"
+        },
+        "绿析先锋": {
+            name: "绿析先锋", sub: "数据洞察 · 沟通赋能",
+            img: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%235a9e87'/%3E%3Ctext x='50' y='70' font-size='40' text-anchor='middle' fill='white'%3E📊%3C/text%3E%3C/svg%3E",
+            jobs: ["ESG咨询顾问", "ESG培训师", "ESG数据专家", "ESG报告/信披专家"],
+            skills: ["数据可视化", "项目汇报与培训技能", "统计分析", "ESG披露规范解读"],
+            desc: "你可能擅长从数据中发现有价值的信息，并将「数据转化有影响力的决策建议」！在这些岗位上，你不仅要提供理论支持，更要帮助企业实实在在地落实可持续发展目标。"
+        },
+        "综合型人才": {
+            name: "跨域绿桥 · 综合型可持续发展推动者", sub: "跨域整合 · 宏观把控",
+            img: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%2380b3a0'/%3E%3Ctext x='50' y='70' font-size='40' text-anchor='middle' fill='white'%3E🌉%3C/text%3E%3C/svg%3E",
+            jobs: ["可持续发展总监", "ESG整合专家", "企业社会责任高级经理", "跨领域战略顾问"],
+            skills: ["跨部门沟通", "复合数据分析", "战略规划", "环境与社会影响评估"],
+            desc: "你可能是一个具有「跨领域视野」的人，能够在绿色金融、可持续发展、环境管理等多个领域间游刃有余。不仅能从宏观的角度把握企业发展方向，还能在具体的实践中，细致地解决ESG等方面的问题。你善于整合多方资源，推动不同领域的协同发展。"
+        }
+    };
+
+    function getDominantLetter(answers) {
+        const counts = [0,0,0,0];
+        for (let ans of answers) if (ans !== null) counts[ans]++;
+        let maxCount = -1, maxIdx = -1, duplicate = false;
+        for (let i=0;i<4;i++) {
+            if (counts[i] > maxCount) { maxCount = counts[i]; maxIdx = i; duplicate = false; }
+            else if (counts[i] === maxCount && maxCount !== -1) duplicate = true;
+        }
+        if (duplicate || maxCount === 0) return '综合';
+        return {0:'A',1:'B',2:'C',3:'D'}[maxIdx];
+    }
+
+    function getPersonalityKey(letter) {
+        if (letter === 'A') return "绿金捕手";
+        if (letter === 'B') return "全绿舵手";
+        if (letter === 'C') return "风险绿探";
+        if (letter === 'D') return "绿析先锋";
+        return "综合型人才";
+    }
+
+    let currentQuestionIndex = 0;
+    let answers = new Array(8).fill(null);
+    let appState = { phase: "testing", resultData: null };
+    const panel = document.getElementById("quizPanel");
+
+    function render() {
+        if (appState.phase === "testing") renderTesting();
+        else renderResult();
+    }
+
+    function renderTesting() {
+        const q = QUESTIONS[currentQuestionIndex];
+        const selectedIdx = answers[currentQuestionIndex];
+        const progressPercent = (currentQuestionIndex / QUESTIONS.length) * 100;
+        let optionsHtml = "";
+        q.options.forEach((opt, idx) => {
+            const letter = String.fromCharCode(65+idx);
+            const isSelected = (selectedIdx === idx);
+            optionsHtml += `<div class="option ${isSelected ? 'selected' : ''}" data-opt-index="${idx}"><span class="option-letter">${letter}</span><span>${opt}</span></div>`;
+        });
+        const isFirst = currentQuestionIndex === 0;
+        const isLast = currentQuestionIndex === QUESTIONS.length - 1;
+        const hasCurrent = answers[currentQuestionIndex] !== null;
+        const html = `
+            <div class="progress-area">
+                <div class="progress-text"><span>🌍 第 ${currentQuestionIndex+1}/${QUESTIONS.length} 题</span><span>ESG天赋探索</span></div>
+                <div class="progress-bar-bg"><div class="progress-fill" style="width: ${progressPercent}%;"></div></div>
+            </div>
+            <div class="question-card">
+                <div class="question-text">${q.text}</div>
+                <div class="options" id="optionsContainer">${optionsHtml}</div>
+            </div>
+            <div class="nav-buttons">
+                <button class="btn-secondary" id="prevBtn" ${isFirst ? 'disabled' : ''}>← 上一题</button>
+                ${!isLast ? `<button id="nextBtn" ${!hasCurrent ? 'disabled' : ''}>下一题 →</button>` : `<button id="submitBtn" class="result-btn" ${!hasCurrent ? 'disabled' : ''}>✨ 生成我的ESG人格 ✨</button>`}
+            </div>
+        `;
+        panel.innerHTML = html;
+        document.querySelectorAll(".option").forEach(opt => {
+            opt.addEventListener("click", () => {
+                const idx = parseInt(opt.dataset.optIndex);
+                if (!isNaN(idx)) { answers[currentQuestionIndex] = idx; render(); }
+            });
+        });
+        document.getElementById("prevBtn")?.addEventListener("click", () => { if (currentQuestionIndex > 0) { currentQuestionIndex--; render(); } });
+        const nextBtn = document.getElementById("nextBtn");
+        if (nextBtn) nextBtn.onclick = () => { if (answers[currentQuestionIndex] !== null && currentQuestionIndex < QUESTIONS.length-1) { currentQuestionIndex++; render(); } };
+        const submitBtn = document.getElementById("submitBtn");
+        if (submitBtn) submitBtn.onclick = () => { if (answers.every(a => a !== null)) computeResult(); else alert("请完成所有8道题目，解锁你的ESG职业人格~ 🌟"); };
+    }
+
+    function computeResult() {
+        const letter = getDominantLetter(answers);
+        const key = getPersonalityKey(letter);
+        appState.resultData = PERSONALITY_MAP[key];
+        appState.phase = "result";
+        render();
+    }
+
+    function renderResult() {
+        const data = appState.resultData;
+        const jobsHtml = data.jobs.map(j => `<li>${j}</li>`).join('');
+        const skillsHtml = data.skills.map(s => `<span class="feature-tag">${s}</span>`).join('');
+        const html = `
+            <div class="result-area">
+                <img class="personality-img" src="${data.img}" alt="人格图标">
+                <div class="personality-name">${data.name}</div>
+                <div class="personality-sub">${data.sub}</div>
+                <div class="personality-desc">
+                    <p>✨ ${data.desc}</p>
+                    <div><strong>🎯 适合岗位：</strong></div>
+                    <ul class="job-list">${jobsHtml}</ul>
+                    <div><strong>⚙️ 关键能力：</strong></div>
+                    <div style="margin:0.6rem 0">${skillsHtml}</div>
+                    <hr>
+                    <p>🔹 如果想进一步提升上述能力或了解更多ESG相关资讯，欢迎联系商道学堂，让我们一起可持续发展！</p>
+                    <p>📢 快分享给朋友看看他们适合什么岗位吧！</p>
+                </div>
+                <button class="restart-btn" id="restartTestBtn">🔄 重新测试 · 探索更多可能</button>
+            </div>
+        `;
+        panel.innerHTML = html;
+        document.getElementById("restartTestBtn")?.addEventListener("click", () => {
+            currentQuestionIndex = 0;
+            answers = new Array(8).fill(null);
+            appState.phase = "testing";
+            appState.resultData = null;
+            render();
+        });
+    }
+
+    render();
+</script>
+</body>
+</html>
